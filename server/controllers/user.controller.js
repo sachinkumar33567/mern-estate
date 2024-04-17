@@ -4,7 +4,8 @@ import { errorHandler } from "../utils/error.js"
 import bcryptjs from 'bcryptjs'
 
 export const test = (req, res) => {
-    res.send('Hello World!')
+    const token = req.cookies.access_token
+    res.status(200).json(token ? true : false)
 }
 
 

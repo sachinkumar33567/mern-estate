@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import {FaSearch} from 'react-icons/fa'
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
+import {signOutSuccess} from "../redux/user/userSlice"
 
 export default function Header() {
   const [searchTerm, setSearchTerm] = useState('')
   const {currentUser} = useSelector(state => state.user)
+  const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const handleSubmit = async (event) => {
@@ -24,6 +26,16 @@ export default function Header() {
     } else {
       setSearchTerm('')
     }
+
+    const fetchCookie = async () => {
+      const res = await fetch('/api/user/test')
+      const data = await res.json()
+      if (!data) {
+        dispatch(signOutSuccess())
+      }
+    }
+
+    fetchCookie()
   }, [location.search])
   
   return (
